@@ -9,6 +9,7 @@ class AdvantagesSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(child: Historiques()),
         Expanded(child: Disciplines()),
@@ -55,13 +56,9 @@ class Vertues extends AttributesColumn {
       : super(
           label: 'Vertues',
           attributes: [
-            Attribute(name: 'Conscience/Conviction', value: 0),
-            Attribute(name: 'Maîtrise de soi/Instinct', value: 0),
+            Attribute(name: 'Conscience/\nConviction', value: 0),
+            Attribute(name: 'Maîtrise de soi/\nInstinct', value: 0),
             Attribute(name: 'Courage', value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
           ],
         );
 }

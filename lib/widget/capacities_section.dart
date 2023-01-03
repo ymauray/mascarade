@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/model/attribute.dart';
+import 'package:mascarade/model/fiche.dart';
+import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/widget/attributes_column.dart';
 
 class CapacitiesSection extends ConsumerWidget {
@@ -8,158 +10,160 @@ class CapacitiesSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final fiche = ref.watch(ficheProvider);
+
     return Row(
       children: [
-        Expanded(child: Talents()),
-        Expanded(child: Competences()),
-        Expanded(child: Connaissances()),
+        Expanded(child: Talents(fiche)),
+        Expanded(child: Competences(fiche)),
+        Expanded(child: Connaissances(fiche)),
       ],
     );
   }
 }
 
 class Talents extends AttributesColumn {
-  Talents({super.key})
+  Talents(Fiche fiche, {super.key})
       : super(
-          label: 'Talents',
+          label: 'Talents (9)',
           attributes: [
             Attribute(
               name: 'Vigilance',
-              value: 0,
+              value: fiche.vigilance ?? 0,
             ),
             Attribute(
               name: 'Athlétisme',
-              value: 0,
+              value: fiche.athletisme ?? 0,
             ),
             Attribute(
               name: 'Bagarre',
-              value: 0,
+              value: fiche.bagarre ?? 0,
             ),
             Attribute(
               name: 'Esquive',
-              value: 0,
+              value: fiche.esquive ?? 0,
             ),
             Attribute(
               name: 'Empathie',
-              value: 0,
+              value: fiche.empathie ?? 0,
             ),
             Attribute(
               name: 'Expression',
-              value: 0,
+              value: fiche.expression ?? 0,
             ),
             Attribute(
               name: 'Intimidation',
-              value: 0,
+              value: fiche.intimidation ?? 0,
             ),
             Attribute(
               name: 'Commandement',
-              value: 0,
+              value: fiche.commandement ?? 0,
             ),
             Attribute(
-              name: 'Expérience de la rue',
-              value: 0,
+              name: 'Connaissance de la rue',
+              value: fiche.connaissanceDeLaRue ?? 0,
             ),
             Attribute(
               name: 'Subterfuge',
-              value: 0,
+              value: fiche.subterfuge ?? 0,
             ),
           ],
         );
 }
 
 class Competences extends AttributesColumn {
-  Competences({super.key})
+  Competences(Fiche fiche, {super.key})
       : super(
-          label: 'Compétences',
+          label: 'Compétences (5)',
           attributes: [
             Attribute(
               name: 'Animaux',
-              value: 0,
+              value: fiche.animaux ?? 0,
             ),
             Attribute(
               name: 'Artisanat',
-              value: 0,
+              value: fiche.artisanat ?? 0,
             ),
             Attribute(
               name: 'Conduite',
-              value: 0,
+              value: fiche.conduite ?? 0,
             ),
             Attribute(
               name: 'Etiquette',
-              value: 0,
+              value: fiche.etiquette ?? 0,
             ),
             Attribute(
               name: 'Armes à feu',
-              value: 0,
+              value: fiche.armesAFeu ?? 0,
             ),
             Attribute(
               name: 'Mêlée',
-              value: 0,
+              value: fiche.melee ?? 0,
             ),
             Attribute(
               name: 'Représentation',
-              value: 0,
+              value: fiche.representation ?? 0,
             ),
             Attribute(
               name: 'Sécurité',
-              value: 0,
+              value: fiche.securite ?? 0,
             ),
             Attribute(
               name: 'Furtivité',
-              value: 0,
+              value: fiche.furtivite ?? 0,
             ),
             Attribute(
               name: 'Survie',
-              value: 0,
+              value: fiche.survie ?? 0,
             ),
           ],
         );
 }
 
 class Connaissances extends AttributesColumn {
-  Connaissances({super.key})
+  Connaissances(Fiche fiche, {super.key})
       : super(
-          label: 'Connaissances',
+          label: 'Connaissances (13)',
           attributes: [
             Attribute(
               name: 'Erudition',
-              value: 0,
+              value: fiche.erudition ?? 0,
             ),
             Attribute(
               name: 'Informatique',
-              value: 0,
+              value: fiche.informatique ?? 0,
             ),
             Attribute(
               name: 'Finances',
-              value: 0,
+              value: fiche.finances ?? 0,
             ),
             Attribute(
               name: 'Investigation',
-              value: 0,
+              value: fiche.investigation ?? 0,
             ),
             Attribute(
               name: 'Droit',
-              value: 0,
+              value: fiche.droit ?? 0,
             ),
             Attribute(
               name: 'Linguistique',
-              value: 0,
+              value: fiche.linguistique ?? 0,
             ),
             Attribute(
-              name: 'Médicine',
-              value: 0,
+              name: 'Médecine',
+              value: fiche.medecine ?? 0,
             ),
             Attribute(
               name: 'Occultisme',
-              value: 0,
+              value: fiche.occultisme ?? 0,
             ),
             Attribute(
               name: 'Politique',
-              value: 0,
+              value: fiche.politique ?? 0,
             ),
             Attribute(
               name: 'Sciences',
-              value: 0,
+              value: fiche.science ?? 0,
             ),
           ],
         );

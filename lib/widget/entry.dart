@@ -3,9 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/widget/small_caps_text.dart';
 
 class Entry extends ConsumerWidget {
-  const Entry({this.leading, this.trailing, super.key});
+  const Entry({this.leading, this.value, this.trailing, super.key});
 
   final String? leading;
+  final String? value;
   final Widget? trailing;
 
   @override
@@ -16,19 +17,38 @@ class Entry extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (leading != null)
+            Padding(
+              padding: EdgeInsets.only(
+                top: leading!.contains('\n') ? 16 : 0,
+              ),
+              child: GestureDetector(
+                child: SmallCapsText(
+                  '$leading',
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+                onDoubleTap: () {
+                  debugPrint('Double tap on $leading');
+                },
+              ),
+            ),
+          if (leading != null) const SizedBox(width: 8),
+          if (value != null)
             SmallCapsText(
-              '$leading',
+              value!,
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
-          if (leading != null) const SizedBox(width: 8),
+          if (leading == null) const SizedBox(height: 22),
           const Expanded(
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
                     width: 2,
+                    color: Colors.grey,
                   ),
                 ),
               ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/model/attribute.dart';
+import 'package:mascarade/model/fiche.dart';
+import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/widget/attributes_column.dart';
 
 class AttributesSection extends ConsumerWidget {
@@ -8,74 +10,82 @@ class AttributesSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final fiche = ref.watch(ficheProvider);
+
     return Row(
       children: [
-        Expanded(child: PhysicalAttributes()),
-        Expanded(child: SocialAttributes()),
-        Expanded(child: MentalAttributes()),
+        Expanded(
+          child: PhysicalAttributes(fiche),
+        ),
+        Expanded(
+          child: SocialAttributes(fiche),
+        ),
+        Expanded(
+          child: MentalAttributes(fiche),
+        ),
       ],
     );
   }
 }
 
 class PhysicalAttributes extends AttributesColumn {
-  PhysicalAttributes({super.key})
+  PhysicalAttributes(Fiche fiche, {super.key})
       : super(
-          label: 'Physique',
+          label: 'Physique (3)',
           attributes: [
             Attribute(
               name: 'Force',
-              value: 1,
+              value: fiche.force ?? 1,
             ),
             Attribute(
               name: 'Dextérité',
-              value: 1,
+              value: fiche.dexterite ?? 1,
             ),
             Attribute(
               name: 'Vigeur',
-              value: 1,
+              value: fiche.vigeur ?? 1,
             ),
           ],
         );
 }
 
 class SocialAttributes extends AttributesColumn {
-  SocialAttributes({super.key})
+  SocialAttributes(Fiche fiche, {super.key})
       : super(
-          label: 'Social',
+          label: 'Social (5)',
           attributes: [
             Attribute(
               name: 'Charisme',
-              value: 1,
+              value: fiche.charisme ?? 1,
             ),
             Attribute(
               name: 'Manipulation',
-              value: 1,
+              value: fiche.manipulation ?? 1,
             ),
             Attribute(
               name: 'Apparence',
-              value: 1,
+              value: fiche.apparence ?? 1,
             ),
           ],
         );
 }
 
 class MentalAttributes extends AttributesColumn {
-  MentalAttributes({super.key})
+  MentalAttributes(Fiche fiche, {super.key})
       : super(
-          label: 'Mental',
+          label: 'Mental (7)',
           attributes: [
             Attribute(
               name: 'Perception',
-              value: 1,
+              value: fiche.intelligence ?? 1,
             ),
             Attribute(
               name: 'Intelligence',
-              value: 1,
+              value: fiche.perception ?? 1,
             ),
             Attribute(
               name: 'Astuce',
-              value: 1,
+              value: fiche.astuce ?? 1,
             ),
           ],
         );
