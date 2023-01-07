@@ -60,7 +60,7 @@ class Talents extends AttributesColumn {
               value: fiche.commandement ?? 0,
             ),
             Attribute(
-              name: 'Connaissance de la rue',
+              name: 'Expérience de la rue',
               value: fiche.connaissanceDeLaRue ?? 0,
             ),
             Attribute(

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
-import 'package:mascarade/widget/advantages_section.dart';
-import 'package:mascarade/widget/attributes_section.dart';
-import 'package:mascarade/widget/capacities_section.dart';
-import 'package:mascarade/widget/horizontal_separator.dart';
-import 'package:mascarade/widget/identity.dart';
+import 'package:mascarade/provider/tab_index_provider.dart';
+import 'package:mascarade/tab/fiche_tab.dart';
+import 'package:mascarade/tab/parametres_tab.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -13,26 +12,45 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fiche = ref.watch(ficheProvider);
+    final tabIndex = ref.watch(tabIndexProvider);
 
-    return Material(
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: const [
-                HorizontalSeparator(label: 'Vampires, la mascarade'),
-                Identity(),
-                HorizontalSeparator(label: 'Attributs (7/5/3)'),
-                AttributesSection(),
-                HorizontalSeparator(label: 'Capacités (13/9/5)'),
-                CapacitiesSection(),
-                HorizontalSeparator(label: 'Avantages'),
-                AdvantagesSection(),
-                HorizontalSeparator(),
-              ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xff87a556),
+          centerTitle: true,
+          title: Text('Mascarade - ${fiche.nom}'),
+        ),
+        body: Builder(
+          builder: (context) {
+            switch (tabIndex) {
+              case 0:
+                return const FicheTab();
+              case 1:
+                return const ParametresTab();
+              default:
+                return const Center(
+                  child: Text("Cette page n'existe pas ..."),
+                );
+            }
+          },
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: const Color(0xff87a556),
+          unselectedItemColor: Colors.white.withOpacity(.60),
+          selectedItemColor: Colors.white,
+          currentIndex: tabIndex,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.file),
+              label: 'Fiche',
             ),
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Paramètres',
+            ),
+          ],
+          onTap: (index) => ref.read(tabIndexProvider.notifier).state = index,
         ),
       ),
     );

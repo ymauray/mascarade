@@ -4,6 +4,7 @@ import 'package:mascarade/page/home_page.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/provider/login_form_state_provider.dart';
 import 'package:mascarade/provider/shared_preferences_provider.dart';
+import 'package:mascarade/provider/tab_index_provider.dart';
 
 class LoginForm extends ConsumerWidget {
   LoginForm({super.key})
@@ -20,6 +21,8 @@ class LoginForm extends ConsumerWidget {
     final loginFormState = ref.watch(loginFormStateProvider);
     final loginForm = ref.watch(loginFormStateProvider.notifier);
     emailController.text = loginFormState.email;
+
+    late ElevatedButton loginButton;
 
     return Material(
       child: SafeArea(
@@ -68,7 +71,7 @@ class LoginForm extends ConsumerWidget {
                       const SizedBox(height: 32),
                       // Login button
                       if (!loginFormState.isRegistrationForm)
-                        ElevatedButton(
+                        loginButton = ElevatedButton(
                           onPressed: () async {
                             loginForm.setEmail(emailController.text);
                             final authenticated = await loginForm.authenticate(
@@ -84,6 +87,7 @@ class LoginForm extends ConsumerWidget {
                                 passwordController.text,
                               );
                               await ref.read(ficheProvider.notifier).load();
+                              ref.read(tabIndexProvider.notifier).state = 0;
                               await Navigator.of(context).pushReplacement(
                                 MaterialPageRoute<void>(
                                   builder: (context) => const HomePage(),

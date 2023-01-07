@@ -15,10 +15,26 @@ dependencies:
   shared_preferences: ^2.0.15
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.11.0
   flutter_lints: ^2.0.0
+  flutter_native_splash: ^2.2.16
   flutter_test:
     sdk: flutter
   very_good_analysis: ^3.1.0
+
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/images/vampire_background_by_cybergothpunkfreak_d1honom.jpg"
+  color_dark: "#434343"
+  image_dark: "assets/images/vampire_background_by_cybergothpunkfreak_d1honom.jpg"
+  android: true
+  ios: true
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/vampire_background_by_cybergothpunkfreak_cropped.jpg"
 
 flutter:
   uses-material-design: true
@@ -27,6 +43,8 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  assets:
+    - assets/images/
   fonts:
     - family: Cardo
       fonts:
