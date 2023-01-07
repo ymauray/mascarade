@@ -9,18 +9,29 @@ class ParametresTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pocketBase = ref.watch(pocketBaseProvider);
-    return Center(
-      child: ElevatedButton(
-        child: const Text('Déconnexion'),
-        onPressed: () async {
-          pocketBase.authStore.clear();
-          await Navigator.of(context).pushReplacement(
-            MaterialPageRoute<void>(
-              builder: (_) => LoginForm(),
+    return Column(
+      children: [
+        Expanded(
+          child: Center(
+            child: ElevatedButton(
+              child: const Text('Déconnexion'),
+              onPressed: () async {
+                pocketBase.authStore.clear();
+                await Navigator.of(context).pushReplacement(
+                  MaterialPageRoute<void>(
+                    builder: (_) => LoginForm(),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
+          ),
+        ),
+        const Text(
+          'Icône et illustration par Cybergothpunkfreak, '
+          'obtenue sur https://www.deviantart.com/',
+        ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 }
