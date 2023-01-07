@@ -3,28 +3,47 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/model/attribute.dart';
 import 'package:mascarade/model/fiche.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
+import 'package:mascarade/utils/lyout_type.dart';
 import 'package:mascarade/widget/attributes_column.dart';
 
 class CapacitiesSection extends ConsumerWidget {
-  const CapacitiesSection({super.key});
+  const CapacitiesSection({
+    this.layout = LayoutType.wide,
+    super.key,
+  });
+
+  final LayoutType layout;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final fiche = ref.watch(ficheProvider);
 
-    return Row(
-      children: [
-        Expanded(child: Talents(fiche)),
-        Expanded(child: Competences(fiche)),
-        Expanded(child: Connaissances(fiche)),
-      ],
-    );
+    return layout == LayoutType.wide
+        ? Row(
+            children: [
+              Expanded(child: Talents(fiche)),
+              Expanded(child: Competences(fiche)),
+              Expanded(child: Connaissances(fiche)),
+            ],
+          )
+        : Column(
+            children: [
+              Talents(fiche, layout: layout),
+              const SizedBox(height: 24),
+              Competences(fiche, layout: layout),
+              const SizedBox(height: 24),
+              Connaissances(fiche, layout: layout),
+            ],
+          );
   }
 }
 
 class Talents extends AttributesColumn {
-  Talents(Fiche fiche, {super.key})
-      : super(
+  Talents(
+    Fiche fiche, {
+    super.layout,
+    super.key,
+  }) : super(
           label: 'Talents (9)',
           attributes: [
             Attribute(
@@ -60,7 +79,7 @@ class Talents extends AttributesColumn {
               value: fiche.commandement ?? 0,
             ),
             Attribute(
-              name: 'Expérience de la rue',
+              name: 'Exp. de la rue',
               value: fiche.connaissanceDeLaRue ?? 0,
             ),
             Attribute(
@@ -72,8 +91,11 @@ class Talents extends AttributesColumn {
 }
 
 class Competences extends AttributesColumn {
-  Competences(Fiche fiche, {super.key})
-      : super(
+  Competences(
+    Fiche fiche, {
+    super.layout,
+    super.key,
+  }) : super(
           label: 'Compétences (5)',
           attributes: [
             Attribute(
@@ -121,8 +143,11 @@ class Competences extends AttributesColumn {
 }
 
 class Connaissances extends AttributesColumn {
-  Connaissances(Fiche fiche, {super.key})
-      : super(
+  Connaissances(
+    Fiche fiche, {
+    super.layout,
+    super.key,
+  }) : super(
           label: 'Connaissances (13)',
           attributes: [
             Attribute(

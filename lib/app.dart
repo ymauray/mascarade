@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/page/home_page.dart';
@@ -41,6 +42,9 @@ class App extends ConsumerWidget {
     final pocketBase = ref.read(pocketBaseProvider);
 
     return MaterialApp(
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: createMaterialColor(const Color(0xFF004400)),
