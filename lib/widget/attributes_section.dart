@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/model/attribute.dart';
 import 'package:mascarade/model/fiche.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
-import 'package:mascarade/utils/lyout_type.dart';
+import 'package:mascarade/utils/layout_type.dart';
 import 'package:mascarade/widget/attributes_column.dart';
 
 class AttributesSection extends ConsumerWidget {

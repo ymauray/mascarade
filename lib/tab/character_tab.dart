@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mascarade/utils/lyout_type.dart';
+import 'package:mascarade/utils/layout_type.dart';
 import 'package:mascarade/widget/advantages_section.dart';
 import 'package:mascarade/widget/attributes_section.dart';
 import 'package:mascarade/widget/capacities_section.dart';
@@ -8,18 +8,19 @@ import 'package:mascarade/widget/horizontal_separator.dart';
 import 'package:mascarade/widget/identity.dart';
 
 class CharacterTab extends ConsumerWidget {
-  const CharacterTab(this.constraints, {super.key});
+  const CharacterTab({
+    this.layout = LayoutType.wide,
+    super.key,
+  });
 
-  final BoxConstraints constraints;
+  final LayoutType layout;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    debugPrint('constraints: $constraints');
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: constraints.minWidth < 800
+        child: layout == LayoutType.narrow
             ? const PortraitLayout()
             : const LandscapeLayout(),
       ),

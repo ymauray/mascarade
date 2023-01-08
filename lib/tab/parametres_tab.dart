@@ -62,7 +62,8 @@ class ParametresTab extends ConsumerWidget {
                               Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: Text(
-                                  'Voulez-vous vraiment supprimer votre compte ?',
+                                  'Voulez-vous vraiment '
+                                  'supprimer votre compte ?',
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
                               ),

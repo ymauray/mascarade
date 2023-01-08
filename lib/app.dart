@@ -1,6 +1,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mascarade/extension/auth_store_extensions.dart';
+import 'package:mascarade/page/dashboard.dart';
 import 'package:mascarade/page/home_page.dart';
 import 'package:mascarade/page/loading_page.dart';
 import 'package:mascarade/page/login_form.dart';
@@ -8,8 +10,10 @@ import 'package:mascarade/page/undefined_page.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/provider/shared_preferences_provider.dart';
+import 'package:mascarade/widget/layout_aware_widget.dart';
+import 'package:pocketbase/pocketbase.dart';
 
-class App extends ConsumerWidget {
+class App extends ConsumerWidget with LayoutAwareWidget {
   const App({super.key});
 
   MaterialColor createMaterialColor(Color color) {
@@ -40,7 +44,6 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sharedPreferences = ref.watch(sharedPreferencesProvider);
     final pocketBase = ref.read(pocketBaseProvider);
-
     return MaterialApp(
       useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
@@ -56,29 +59,41 @@ class App extends ConsumerWidget {
           title: 'Error loading shared preferences',
         ),
         data: (sharedPreferences) {
-          if (pocketBase.authStore.token.isNotEmpty) return const HomePage();
-          final email = sharedPreferences.getString('email');
+          if (pocketBase.authStore.token.isNotEmpty) {
+            return pocketBase.authStore.isStoryTeller
+                ? const Dashboard()
+                : const HomePage();
+          }
+          final username = sharedPreferences.getString('username');
           final password = sharedPreferences.getString('password');
-          if (email != null &&
-              email.isNotEmpty &&
+          if (username != null &&
+              username.isNotEmpty &&
               password != null &&
               password.isNotEmpty) {
-            return FutureBuilder(
-              future: pocketBase
-                  .collection('users')
-                  .authWithPassword(email, password),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  ref.read(ficheProvider.notifier).load();
-                  return const HomePage();
-                } else if (snapshot.hasError) {
-                  sharedPreferences
-                    ..remove('email')
-                    ..remove('password');
-                  return LoginForm();
-                } else {
-                  return const LoadingPage();
-                }
+            return LayoutBuilder(
+              builder: (context, constraints) {
+                final layout = getLayout(constraints);
+                return FutureBuilder(
+                  future: pocketBase
+                      .collection('users')
+                      .authWithPassword(username, password),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      ref.read(ficheProvider.notifier).load();
+                      return ((pocketBase.authStore.model as RecordModel)
+                              .data['storyteller'] as bool)
+                          ? const Dashboard()
+                          : const HomePage();
+                    } else if (snapshot.hasError) {
+                      sharedPreferences
+                        ..remove('email')
+                        ..remove('password');
+                      return LoginForm();
+                    } else {
+                      return const LoadingPage();
+                    }
+                  },
+                );
               },
             );
           } else {

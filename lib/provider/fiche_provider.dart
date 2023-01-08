@@ -4,7 +4,7 @@ import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 class FicheStateNotifier extends StateNotifier<Fiche> {
-  FicheStateNotifier(this.pocketBase) : super(Fiche());
+  FicheStateNotifier(this.pocketBase) : super(const Fiche());
 
   final PocketBase pocketBase;
 

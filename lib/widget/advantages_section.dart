@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/model/attribute.dart';
-import 'package:mascarade/utils/lyout_type.dart';
+import 'package:mascarade/utils/layout_type.dart';
 import 'package:mascarade/widget/attributes_column.dart';
 
 class AdvantagesSection extends ConsumerWidget {
@@ -43,13 +43,13 @@ class Historiques extends AttributesColumn {
   }) : super(
           label: 'Historiques',
           attributes: [
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
           ],
         );
 }
@@ -61,13 +61,13 @@ class Disciplines extends AttributesColumn {
   }) : super(
           label: 'Disciplines',
           attributes: [
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
-            Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
+            const Attribute(value: 0),
           ],
         );
 }
@@ -79,9 +79,9 @@ class Vertues extends AttributesColumn {
   }) : super(
           label: 'Vertues',
           attributes: [
-            Attribute(name: 'Conscience/\nConviction', value: 0),
-            Attribute(name: 'Maîtrise de soi/\nInstinct', value: 0),
-            Attribute(name: 'Courage', value: 0),
+            const Attribute(name: 'Conscience/\nConviction', value: 0),
+            const Attribute(name: 'Maîtrise de soi/\nInstinct', value: 0),
+            const Attribute(name: 'Courage', value: 0),
           ],
         );
 }

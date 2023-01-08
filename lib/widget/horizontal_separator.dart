@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mascarade/utils/lyout_type.dart';
+import 'package:mascarade/utils/layout_type.dart';
 import 'package:mascarade/widget/small_caps_text.dart';
 
 class HorizontalSeparator extends ConsumerWidget {

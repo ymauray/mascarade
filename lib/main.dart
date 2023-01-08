@@ -9,7 +9,7 @@ void main() {
   runApp(
     DevicePreview(
       // ignore: avoid_redundant_argument_values
-      enabled: !kReleaseMode,
+      enabled: !kReleaseMode && !kIsWeb,
       builder: (context) => const ProviderScope(child: App()),
     ),
   );

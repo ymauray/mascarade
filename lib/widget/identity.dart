@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
-import 'package:mascarade/utils/lyout_type.dart';
+import 'package:mascarade/utils/layout_type.dart';
 import 'package:mascarade/widget/entry.dart';
 
 class Identity extends ConsumerWidget {

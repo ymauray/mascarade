@@ -1,6 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
+
+@immutable
 class Fiche {
   final String? playerid;
   final String? joueur;
@@ -58,7 +61,7 @@ class Fiche {
   final int? politique;
   final int? science;
 
-  Fiche({
+  const Fiche({
     this.playerid,
     this.joueur,
     this.nom,
@@ -340,7 +343,25 @@ class Fiche {
 
   @override
   String toString() {
-    return 'Fiche(playerid: $playerid, joueur: $joueur, nom: $nom, chronique: $chronique, nature: $nature, attitude: $attitude, concept: $concept, clan: $clan, generation: $generation, refuge: $refuge, force: $force, dexterite: $dexterite, vigeur: $vigeur, charisme: $charisme, manipulation: $manipulation, apparence: $apparence, perception: $perception, intelligence: $intelligence, astuce: $astuce, vigilance: $vigilance, athletisme: $athletisme, bagarre: $bagarre, esquive: $esquive, empathie: $empathie, expression: $expression, intimidation: $intimidation, commandement: $commandement, connaissanceDeLaRue: $connaissanceDeLaRue, subterfuge: $subterfuge, animaux: $animaux, artisanat: $artisanat, conduite: $conduite, etiquette: $etiquette, armesAFeu: $armesAFeu, melee: $melee, representation: $representation, securite: $securite, furtivite: $furtivite, survie: $survie, erudition: $erudition, informatique: $informatique, finances: $finances, investigation: $investigation, droit: $droit, linguistique: $linguistique, medecine: $medecine, occultisme: $occultisme, politique: $politique, science: $science)';
+    return 'Fiche(playerid: $playerid, joueur: $joueur, nom: $nom, '
+        'chronique: $chronique, nature: $nature, attitude: $attitude, '
+        'concept: $concept, clan: $clan, generation: $generation, '
+        'refuge: $refuge, force: $force, dexterite: $dexterite, '
+        'vigeur: $vigeur, charisme: $charisme, manipulation: $manipulation, '
+        'apparence: $apparence, perception: $perception, '
+        'intelligence: $intelligence, astuce: $astuce, vigilance: $vigilance, '
+        'athletisme: $athletisme, bagarre: $bagarre, esquive: $esquive, '
+        'empathie: $empathie, expression: $expression, '
+        'intimidation: $intimidation, commandement: $commandement, '
+        'connaissanceDeLaRue: $connaissanceDeLaRue, subterfuge: $subterfuge, '
+        'animaux: $animaux, artisanat: $artisanat, conduite: $conduite, '
+        'etiquette: $etiquette, armesAFeu: $armesAFeu, melee: $melee, '
+        'representation: $representation, securite: $securite, '
+        'furtivite: $furtivite, survie: $survie, erudition: $erudition, '
+        'informatique: $informatique, finances: $finances, '
+        'investigation: $investigation, droit: $droit, '
+        'linguistique: $linguistique, medecine: $medecine, '
+        'occultisme: $occultisme, politique: $politique, science: $science)';
   }
 
   @override

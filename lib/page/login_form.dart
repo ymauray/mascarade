@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mascarade/extension/auth_store_extensions.dart';
+import 'package:mascarade/page/dashboard.dart';
 import 'package:mascarade/page/home_page.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/provider/login_form_state_provider.dart';
+import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/provider/shared_preferences_provider.dart';
 import 'package:mascarade/provider/tab_index_provider.dart';
 
@@ -18,17 +21,17 @@ class LoginForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final pocketBase = ref.watch(pocketBaseProvider);
     final loginFormState = ref.watch(loginFormStateProvider);
     final loginForm = ref.watch(loginFormStateProvider.notifier);
-    usernameController.text = loginFormState.username;
 
     Future<void> onLoginButtonPressed() async {
       loginForm
         ..toggleIsBusy()
-        ..setUsername(usernameController.text)
         ..clearError()
         ..clearInfo();
       final authenticated = await loginForm.authenticate(
+        usernameController.text,
         passwordController.text,
       );
       loginForm.toggleIsBusy();
@@ -48,7 +51,9 @@ class LoginForm extends ConsumerWidget {
         ref.read(tabIndexProvider.notifier).state = 0;
         await Navigator.of(context).pushReplacement(
           MaterialPageRoute<void>(
-            builder: (context) => const HomePage(),
+            builder: (context) => pocketBase.authStore.isStoryTeller
+                ? const Dashboard()
+                : const HomePage(),
           ),
         );
       } else {
@@ -59,11 +64,11 @@ class LoginForm extends ConsumerWidget {
 
     Future<void> onRegisterButtonPressed() async {
       loginForm
-        ..setUsername(usernameController.text)
         ..toggleIsBusy()
         ..clearError()
         ..clearInfo();
       final registered = await loginForm.register(
+        usernameController.text,
         passwordController.text,
         confirmPasswordController.text,
       );
@@ -124,9 +129,8 @@ class LoginForm extends ConsumerWidget {
                                 ),
                                 onSubmitted: (value) => onButtonPressed(),
                               ),
-                              if (loginFormState.isRegistrationForm)
+                              if (loginFormState.isRegistrationForm) ...[
                                 const SizedBox(height: 16),
-                              if (loginFormState.isRegistrationForm)
                                 // Confirm password input
                                 TextField(
                                   obscureText: true,
@@ -137,35 +141,51 @@ class LoginForm extends ConsumerWidget {
                                   ),
                                   onSubmitted: (value) => onButtonPressed(),
                                 ),
+                                const SizedBox(height: 16),
+                                Row(
+                                  children: [
+                                    Checkbox(
+                                      value:
+                                          loginFormState.registerAsStoryteller,
+                                      onChanged: (value) {
+                                        loginForm.toggleRegisterAsStoryteller();
+                                      },
+                                    ),
+                                    const Text(
+                                      "S'enregistrer en tant que Conteur",
+                                    )
+                                  ],
+                                ),
+                              ],
                               const SizedBox(height: 32),
-                              // Login button
-                              if (!loginFormState.isRegistrationForm)
+                              if (!loginFormState.isRegistrationForm) ...[
                                 ElevatedButton(
                                   onPressed: onLoginButtonPressed,
                                   child: const Text('Connexion'),
                                 ),
-                              if (loginFormState.isRegistrationForm)
-                                ElevatedButton(
-                                  onPressed: onRegisterButtonPressed,
-                                  child: const Text('Enregistrer'),
-                                ),
-                              const SizedBox(height: 24),
-                              // Register button
-                              if (loginFormState.isRegistrationForm)
-                                TextButton(
-                                  onPressed: loginForm.toggleIsRegistrationForm,
-                                  child: const Text(
-                                    'Vous avez déjà un compte ? Connectez-vous.',
-                                  ),
-                                ),
-
-                              if (!loginFormState.isRegistrationForm)
+                                const SizedBox(height: 24),
                                 TextButton(
                                   onPressed: loginForm.toggleIsRegistrationForm,
                                   child: const Text(
                                     "Vous n'avez pas de compte ? Créez-en un.",
                                   ),
                                 ),
+                              ],
+                              if (loginFormState.isRegistrationForm) ...[
+                                ElevatedButton(
+                                  onPressed: onRegisterButtonPressed,
+                                  child: const Text('Enregistrer'),
+                                ),
+                                const SizedBox(height: 24),
+                                // Register button
+                                TextButton(
+                                  onPressed: loginForm.toggleIsRegistrationForm,
+                                  child: const Text(
+                                    'Vous avez déjà un compte ? '
+                                    'Connectez-vous.',
+                                  ),
+                                ),
+                              ],
                             ],
                           ),
                         ),

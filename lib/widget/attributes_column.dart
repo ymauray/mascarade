@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/model/attribute.dart';
-import 'package:mascarade/utils/lyout_type.dart';
+import 'package:mascarade/utils/layout_type.dart';
 import 'package:mascarade/widget/entry.dart';
 import 'package:mascarade/widget/five_dots.dart';
 import 'package:mascarade/widget/small_caps_text.dart';
