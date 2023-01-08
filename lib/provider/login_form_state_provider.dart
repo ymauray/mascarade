@@ -9,32 +9,33 @@ import 'package:pocketbase/pocketbase.dart';
 @immutable
 class LoginFormState {
   const LoginFormState({
-    this.email = '',
+    this.username = '',
     this.isRegistrationForm = false,
   });
-  final String email;
+
+  final String username;
   final bool isRegistrationForm;
 
   LoginFormState copyWith({
-    String? email,
+    String? username,
     bool? isRegistrationForm,
   }) {
     return LoginFormState(
-      email: email ?? this.email,
+      username: username ?? this.username,
       isRegistrationForm: isRegistrationForm ?? this.isRegistrationForm,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'email': email,
+      'username': username,
       'isRegistrationForm': isRegistrationForm,
     };
   }
 
   factory LoginFormState.fromMap(Map<String, dynamic> map) {
     return LoginFormState(
-      email: map['email'] as String,
+      username: map['username'] as String,
       isRegistrationForm: map['isRegistrationForm'] as bool,
     );
   }
@@ -46,18 +47,18 @@ class LoginFormState {
 
   @override
   String toString() =>
-      'LoginFormState(email: $email, isRegistrationForm: $isRegistrationForm)';
+      'LoginFormState(username: $username, isRegistrationForm: $isRegistrationForm)';
 
   @override
   bool operator ==(covariant LoginFormState other) {
     if (identical(this, other)) return true;
 
-    return other.email == email &&
+    return other.username == username &&
         other.isRegistrationForm == isRegistrationForm;
   }
 
   @override
-  int get hashCode => email.hashCode ^ isRegistrationForm.hashCode;
+  int get hashCode => username.hashCode ^ isRegistrationForm.hashCode;
 }
 
 class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
@@ -65,8 +66,8 @@ class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
 
   final PocketBase _pocketBase;
 
-  void setEmail(String email) {
-    state = state.copyWith(email: email);
+  void setUsername(String username) {
+    state = state.copyWith(username: username);
   }
 
   void toggleIsRegistrationForm() {
@@ -77,7 +78,7 @@ class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
     try {
       await _pocketBase
           .collection('users')
-          .authWithPassword(state.email, password);
+          .authWithPassword(state.username, password);
       return true;
     } catch (e) {
       return false;
@@ -88,7 +89,7 @@ class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
     try {
       await _pocketBase.collection('users').create(
         body: {
-          'email': state.email,
+          'username': state.username,
           'password': password,
           'passwordConfirm': passwordConfirmation
         },

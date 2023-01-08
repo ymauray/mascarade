@@ -8,11 +8,11 @@ import 'package:mascarade/provider/tab_index_provider.dart';
 
 class LoginForm extends ConsumerWidget {
   LoginForm({super.key})
-      : emailController = TextEditingController(),
+      : usernameController = TextEditingController(),
         passwordController = TextEditingController(),
         confirmPasswordController = TextEditingController();
 
-  final TextEditingController emailController;
+  final TextEditingController usernameController;
   final TextEditingController passwordController;
   final TextEditingController confirmPasswordController;
 
@@ -20,9 +20,7 @@ class LoginForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginFormState = ref.watch(loginFormStateProvider);
     final loginForm = ref.watch(loginFormStateProvider.notifier);
-    emailController.text = loginFormState.email;
-
-    late ElevatedButton loginButton;
+    usernameController.text = loginFormState.username;
 
     return Material(
       child: SafeArea(
@@ -37,13 +35,12 @@ class LoginForm extends ConsumerWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Email input
+                      // Username input
                       TextField(
-                        controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
+                        controller: usernameController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: 'Courriel',
+                          labelText: 'Identifiant',
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -71,9 +68,9 @@ class LoginForm extends ConsumerWidget {
                       const SizedBox(height: 32),
                       // Login button
                       if (!loginFormState.isRegistrationForm)
-                        loginButton = ElevatedButton(
+                        ElevatedButton(
                           onPressed: () async {
-                            loginForm.setEmail(emailController.text);
+                            loginForm.setUsername(usernameController.text);
                             final authenticated = await loginForm.authenticate(
                               passwordController.text,
                             );
@@ -81,7 +78,10 @@ class LoginForm extends ConsumerWidget {
                               final sp = await ref.read(
                                 sharedPreferencesProvider.future,
                               );
-                              await sp.setString('email', emailController.text);
+                              await sp.setString(
+                                'username',
+                                usernameController.text,
+                              );
                               await sp.setString(
                                 'password',
                                 passwordController.text,
@@ -100,7 +100,7 @@ class LoginForm extends ConsumerWidget {
                       if (loginFormState.isRegistrationForm)
                         ElevatedButton(
                           onPressed: () async {
-                            loginForm.setEmail(emailController.text);
+                            loginForm.setUsername(usernameController.text);
                             final registered = await loginForm.register(
                               passwordController.text,
                               confirmPasswordController.text,
