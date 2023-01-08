@@ -36,8 +36,8 @@
       "breakingChange": "BREAKING CHANGES"
     },
 
-    "commitUrl": "https://github.com/ymauray/nannyplus/commit/%commit%",
-    "commitRangeUrl": "https://github.com/ymauray/nannyplus/compare/%from%...%to%?diff=split",
-    "issueUrl": "https://github.com/ymauray/nannyplus/issues/%issue%"
+    "commitUrl": "https://github.com/ymauray/mascarade/commit/%commit%",
+    "commitRangeUrl": "https://github.com/ymauray/mascarade/compare/%from%...%to%?diff=split",
+    "issueUrl": "https://github.com/ymauray/mascarade/issues/%issue%"
   }
 }
