@@ -50,7 +50,7 @@ class PhysicalAttributes extends AttributesColumn {
     super.layout,
     super.key,
   }) : super(
-          label: 'Physique (3)',
+          label: 'Physique',
           attributes: [
             Attribute(
               name: 'Force',
@@ -74,7 +74,7 @@ class SocialAttributes extends AttributesColumn {
     super.layout,
     super.key,
   }) : super(
-          label: 'Social (5)',
+          label: 'Social',
           attributes: [
             Attribute(
               name: 'Charisme',
@@ -98,7 +98,7 @@ class MentalAttributes extends AttributesColumn {
     super.layout,
     super.key,
   }) : super(
-          label: 'Mental (7)',
+          label: 'Mental',
           attributes: [
             Attribute(
               name: 'Perception',

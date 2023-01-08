@@ -44,7 +44,7 @@ class Talents extends AttributesColumn {
     super.layout,
     super.key,
   }) : super(
-          label: 'Talents (9)',
+          label: 'Talents',
           attributes: [
             Attribute(
               name: 'Vigilance',
@@ -96,7 +96,7 @@ class Competences extends AttributesColumn {
     super.layout,
     super.key,
   }) : super(
-          label: 'Compétences (5)',
+          label: 'Compétences',
           attributes: [
             Attribute(
               name: 'Animaux',
@@ -148,7 +148,7 @@ class Connaissances extends AttributesColumn {
     super.layout,
     super.key,
   }) : super(
-          label: 'Connaissances (13)',
+          label: 'Connaissances',
           attributes: [
             Attribute(
               name: 'Erudition',
