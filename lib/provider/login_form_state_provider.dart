@@ -11,18 +11,30 @@ class LoginFormState {
   const LoginFormState({
     this.username = '',
     this.isRegistrationForm = false,
+    this.isBusy = false,
+    this.info = '',
+    this.error = '',
   });
 
   final String username;
   final bool isRegistrationForm;
+  final bool isBusy;
+  final String info;
+  final String error;
 
   LoginFormState copyWith({
     String? username,
     bool? isRegistrationForm,
+    bool? isBusy,
+    String? info,
+    String? error,
   }) {
     return LoginFormState(
       username: username ?? this.username,
       isRegistrationForm: isRegistrationForm ?? this.isRegistrationForm,
+      isBusy: isBusy ?? this.isBusy,
+      info: info ?? this.info,
+      error: error ?? this.error,
     );
   }
 
@@ -30,6 +42,9 @@ class LoginFormState {
     return <String, dynamic>{
       'username': username,
       'isRegistrationForm': isRegistrationForm,
+      'isBusy': isBusy,
+      'info': info,
+      'error': error,
     };
   }
 
@@ -37,6 +52,9 @@ class LoginFormState {
     return LoginFormState(
       username: map['username'] as String,
       isRegistrationForm: map['isRegistrationForm'] as bool,
+      isBusy: map['isBusy'] as bool,
+      info: map['info'] as String,
+      error: map['error'] as String,
     );
   }
 
@@ -46,19 +64,29 @@ class LoginFormState {
       LoginFormState.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() =>
-      'LoginFormState(username: $username, isRegistrationForm: $isRegistrationForm)';
+  String toString() {
+    return 'LoginFormState(username: $username, isRegistrationForm: $isRegistrationForm, isBusy: $isBusy, info: $info, error: $error)';
+  }
 
   @override
   bool operator ==(covariant LoginFormState other) {
     if (identical(this, other)) return true;
 
     return other.username == username &&
-        other.isRegistrationForm == isRegistrationForm;
+        other.isRegistrationForm == isRegistrationForm &&
+        other.isBusy == isBusy &&
+        other.info == info &&
+        other.error == error;
   }
 
   @override
-  int get hashCode => username.hashCode ^ isRegistrationForm.hashCode;
+  int get hashCode {
+    return username.hashCode ^
+        isRegistrationForm.hashCode ^
+        isBusy.hashCode ^
+        info.hashCode ^
+        error.hashCode;
+  }
 }
 
 class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
@@ -74,18 +102,52 @@ class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
     state = state.copyWith(isRegistrationForm: !state.isRegistrationForm);
   }
 
+  void toggleIsBusy() {
+    state = state.copyWith(isBusy: !state.isBusy);
+  }
+
+  void clearInfo() {
+    state = state.copyWith(info: '');
+  }
+
+  void clearError() {
+    state = state.copyWith(error: '');
+  }
+
   Future<bool> authenticate(String password) async {
+    if (state.username.isEmpty) {
+      state = state.copyWith(error: "L'identifiant est requis");
+      return false;
+    }
+    if (password.isEmpty) {
+      state = state.copyWith(error: 'Le mot de passe est requis');
+      return false;
+    }
     try {
       await _pocketBase
           .collection('users')
           .authWithPassword(state.username, password);
+      state = state.copyWith(error: '');
       return true;
-    } catch (e) {
+    } on ClientException catch (e) {
+      state = state.copyWith(error: e.response['message'] as String);
       return false;
     }
   }
 
   Future<bool> register(String password, String passwordConfirmation) async {
+    if (state.username.isEmpty) {
+      state = state.copyWith(error: "L'identifiant est requis");
+      return false;
+    }
+    if (password.isEmpty || passwordConfirmation.isEmpty) {
+      state = state.copyWith(error: 'Le mot de passe est requis');
+      return false;
+    }
+    if (password != passwordConfirmation) {
+      state = state.copyWith(error: 'Les mots de passe ne correspondent pas');
+      return false;
+    }
     try {
       await _pocketBase.collection('users').create(
         body: {
@@ -94,8 +156,10 @@ class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
           'passwordConfirm': passwordConfirmation
         },
       );
+      state = state.copyWith(info: 'Inscription réussie');
       return true;
-    } catch (e) {
+    } on ClientException catch (e) {
+      state = state.copyWith(error: e.response['message'] as String);
       return false;
     }
   }

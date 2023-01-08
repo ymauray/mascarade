@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
+import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/provider/tab_index_provider.dart';
 import 'package:mascarade/tab/character_tab.dart';
 import 'package:mascarade/tab/parametres_tab.dart';
+import 'package:pocketbase/pocketbase.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -13,6 +15,9 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final fiche = ref.watch(ficheProvider);
     final tabIndex = ref.watch(tabIndexProvider);
+    final pocketBase = ref.watch(pocketBaseProvider);
+    final username =
+        (pocketBase.authStore.model as RecordModel).data['username'];
 
     return SafeArea(
       child: LayoutBuilder(
@@ -21,7 +26,9 @@ class HomePage extends ConsumerWidget {
             appBar: AppBar(
               backgroundColor: const Color(0xff87a556),
               centerTitle: true,
-              title: Text('Mascarade - ${fiche.nom}'),
+              title: Text(
+                'Mascarade - $username',
+              ),
             ),
             body: Builder(
               builder: (context) {
