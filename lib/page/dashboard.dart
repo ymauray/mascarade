@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/extension/auth_store_extensions.dart';
+import 'package:mascarade/page/chronicle_provider.dart';
 import 'package:mascarade/page/login_form.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/utils/layout_type.dart';
@@ -85,25 +86,55 @@ class DashboardMenu extends ConsumerWidget {
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
-          const Text('Menu'),
+          const Text('Chroniques'),
           const Divider(height: 32),
-          const Text('Code de la chronique'),
-          Text(
-            pocketBase.authStore.getString('chronicle'),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          const Text('Nom de la chronique'),
-          Text(
-            name.isEmpty ? 'Non renseigné' : name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          TextButton(
+          // const Text('Code de la chronique'),
+          // Text(
+          //   pocketBase.authStore.getString('chronicle'),
+          //   style: const TextStyle(fontWeight: FontWeight.bold),
+          // ),
+          // const SizedBox(height: 8),
+          // const Text('Nom de la chronique'),
+          // Text(
+          //   name.isEmpty ? 'Non renseigné' : name,
+          //   style: const TextStyle(fontWeight: FontWeight.bold),
+          // ),
+          // TextButton(
+          //   onPressed: () async {
+          //     final changed = await showDialog<bool>(
+          //       context: context,
+          //       builder: (context) => AlertDialog(
+          //         title: const Text('Modifier le nom de la chronique'),
+          //         content: TextField(
+          //           controller: chronicleController,
+          //         ),
+          //         actions: [
+          //           TextButton(
+          //             onPressed: () {
+          //               Navigator.of(context).pop(false);
+          //             },
+          //             child: const Text('Annuler'),
+          //           ),
+          //           ElevatedButton(
+          //             onPressed: () {
+          //               Navigator.of(context).pop(true);
+          //             },
+          //             child: const Text('Modifier'),
+          //           ),
+          //         ],
+          //       ),
+          //     );
+          //     if (changed ?? false) {}
+          //   },
+          //   child: const Text('Modifier'),
+          // ),
+          // const Divider(height: 32),
+          ElevatedButton(
             onPressed: () async {
-              final changed = await showDialog<bool>(
+              final created = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Modifier le nom de la chronique'),
+                  title: const Text('Nom de la chronique'),
                   content: TextField(
                     controller: chronicleController,
                   ),
@@ -118,19 +149,20 @@ class DashboardMenu extends ConsumerWidget {
                       onPressed: () {
                         Navigator.of(context).pop(true);
                       },
-                      child: const Text('Modifier'),
+                      child: const Text('Créer'),
                     ),
                   ],
                 ),
               );
-              if (changed ?? false) {
-                
+              if (created ?? false) {
+                final chronicleDal = ref.watch(chronicleDalProvider);
+                chronicleDal.create(chronicleController.text);
               }
             },
-            child: const Text('Modifier'),
+            child: const Text('Nouvelle chronique'),
           ),
           const Divider(height: 32),
-          ElevatedButton(
+          TextButton(
             onPressed: () async {
               pocketBase.authStore.clear();
               await Navigator.of(context).pushReplacement(
