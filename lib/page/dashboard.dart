@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mascarade/extension/auth_store_extensions.dart';
 import 'package:mascarade/page/login_form.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/utils/layout_type.dart';
@@ -58,7 +59,14 @@ class DashboardMainArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Tableau de bord');
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        children: const [
+          Text('Tableau de bord'),
+        ],
+      ),
+    );
   }
 }
 
@@ -70,14 +78,58 @@ class DashboardMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pocketBase = ref.watch(pocketBaseProvider);
+    final name = pocketBase.authStore.getString('name');
+    final chronicleController = TextEditingController(text: name);
+
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           const Text('Menu'),
-          const Divider(
-            height: 32,
+          const Divider(height: 32),
+          const Text('Code de la chronique'),
+          Text(
+            pocketBase.authStore.getString('chronicle'),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 8),
+          const Text('Nom de la chronique'),
+          Text(
+            name.isEmpty ? 'Non renseigné' : name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextButton(
+            onPressed: () async {
+              final changed = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Modifier le nom de la chronique'),
+                  content: TextField(
+                    controller: chronicleController,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      child: const Text('Annuler'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(true);
+                      },
+                      child: const Text('Modifier'),
+                    ),
+                  ],
+                ),
+              );
+              if (changed ?? false) {
+                
+              }
+            },
+            child: const Text('Modifier'),
+          ),
+          const Divider(height: 32),
           ElevatedButton(
             onPressed: () async {
               pocketBase.authStore.clear();

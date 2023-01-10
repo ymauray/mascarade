@@ -156,27 +156,35 @@ class LoginFormStateNotifier extends StateNotifier<LoginFormState> {
       state = state.copyWith(error: 'Les mots de passe ne correspondent pas');
       return false;
     }
-    final converter = BaseConversion(from: base10, to: base58);
-    final stamp = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
-    final reversedStamp = converter(stamp.toString()).split('').reversed.join();
-    final codeBuffer = StringBuffer();
-    for (var i = 0; i < reversedStamp.length; i += 2) {
-      codeBuffer.write(reversedStamp[i]);
-    }
-    for (var i = 1; i < reversedStamp.length; i += 2) {
-      codeBuffer.write(reversedStamp[i]);
-    }
-    final code = codeBuffer.toString();
     try {
-      await _pocketBase.collection('users').create(
+      final recordModel = await _pocketBase.collection('users').create(
         body: {
           'username': username,
           'password': password,
           'passwordConfirm': passwordConfirmation,
           'storyteller': state.registerAsStoryteller,
-          'chronicle': state.registerAsStoryteller ? code : null,
         },
       );
+      if (state.registerAsStoryteller) {
+        final converter = BaseConversion(from: base10, to: base58);
+        final stamp = DateTime.now().toUtc().millisecondsSinceEpoch ~/ 1000;
+        final reversedStamp =
+            converter(stamp.toString()).split('').reversed.join();
+        final codeBuffer = StringBuffer();
+        for (var i = 0; i < reversedStamp.length; i += 2) {
+          codeBuffer.write(reversedStamp[i]);
+        }
+        for (var i = 1; i < reversedStamp.length; i += 2) {
+          codeBuffer.write(reversedStamp[i]);
+        }
+        final code = codeBuffer.toString();
+        await _pocketBase.collection('chronicles').create(
+          body: {
+            'code': code,
+            'storyteller': recordModel.id,
+          },
+        );
+      }
       state = state.copyWith(
         info: 'Inscription réussie',
         registerAsStoryteller: false,

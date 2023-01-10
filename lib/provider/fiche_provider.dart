@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mascarade/extension/auth_store_extensions.dart';
 import 'package:mascarade/model/fiche.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:pocketbase/pocketbase.dart';
@@ -9,16 +10,18 @@ class FicheStateNotifier extends StateNotifier<Fiche> {
   final PocketBase pocketBase;
 
   Future<void> load() async {
+    if (pocketBase.authStore.isStoryTeller) return;
+
     RecordModel fiche;
     final user = pocketBase.authStore.model as RecordModel;
     final fiches = await pocketBase.collection('fiches').getList(
       query: {
-        'playerid': user.id,
+        'idJoueur': user.id,
       },
     );
     if (fiches.items.isEmpty) {
       fiche = await pocketBase.collection('fiches').create(
-            body: Fiche(playerid: user.id).toMap(),
+            body: Fiche(idJoueur: user.id).toMap(),
           );
     } else {
       fiche = fiches.items.first;

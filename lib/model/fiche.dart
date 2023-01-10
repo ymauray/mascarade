@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 @immutable
 class Fiche {
-  final String? playerid;
+  final String? idJoueur;
   final String? joueur;
   final String? nom;
   final String? chronique;
@@ -62,7 +62,7 @@ class Fiche {
   final int? science;
 
   const Fiche({
-    this.playerid,
+    this.idJoueur,
     this.joueur,
     this.nom,
     this.chronique,
@@ -114,7 +114,7 @@ class Fiche {
   });
 
   Fiche copyWith({
-    String? playerid,
+    String? idJoueur,
     String? joueur,
     String? nom,
     String? chronique,
@@ -165,7 +165,7 @@ class Fiche {
     int? science,
   }) {
     return Fiche(
-      playerid: playerid ?? this.playerid,
+      idJoueur: idJoueur ?? this.idJoueur,
       joueur: joueur ?? this.joueur,
       nom: nom ?? this.nom,
       chronique: chronique ?? this.chronique,
@@ -219,7 +219,7 @@ class Fiche {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'playerid': playerid,
+      'idJoueur': idJoueur,
       'joueur': joueur,
       'nom': nom,
       'chronique': chronique,
@@ -273,7 +273,7 @@ class Fiche {
 
   factory Fiche.fromMap(Map<String, dynamic> map) {
     return Fiche(
-      playerid: map['playerid'] != null ? map['playerid'] as String : null,
+      idJoueur: map['idJoueur'] != null ? map['idJoueur'] as String : null,
       joueur: map['joueur'] != null ? map['joueur'] as String : null,
       nom: map['nom'] != null ? map['nom'] as String : null,
       chronique: map['chronique'] != null ? map['chronique'] as String : null,
@@ -343,32 +343,14 @@ class Fiche {
 
   @override
   String toString() {
-    return 'Fiche(playerid: $playerid, joueur: $joueur, nom: $nom, '
-        'chronique: $chronique, nature: $nature, attitude: $attitude, '
-        'concept: $concept, clan: $clan, generation: $generation, '
-        'refuge: $refuge, force: $force, dexterite: $dexterite, '
-        'vigeur: $vigeur, charisme: $charisme, manipulation: $manipulation, '
-        'apparence: $apparence, perception: $perception, '
-        'intelligence: $intelligence, astuce: $astuce, vigilance: $vigilance, '
-        'athletisme: $athletisme, bagarre: $bagarre, esquive: $esquive, '
-        'empathie: $empathie, expression: $expression, '
-        'intimidation: $intimidation, commandement: $commandement, '
-        'connaissanceDeLaRue: $connaissanceDeLaRue, subterfuge: $subterfuge, '
-        'animaux: $animaux, artisanat: $artisanat, conduite: $conduite, '
-        'etiquette: $etiquette, armesAFeu: $armesAFeu, melee: $melee, '
-        'representation: $representation, securite: $securite, '
-        'furtivite: $furtivite, survie: $survie, erudition: $erudition, '
-        'informatique: $informatique, finances: $finances, '
-        'investigation: $investigation, droit: $droit, '
-        'linguistique: $linguistique, medecine: $medecine, '
-        'occultisme: $occultisme, politique: $politique, science: $science)';
+    return 'Fiche(idJoueur: $idJoueur, joueur: $joueur, nom: $nom, chronique: $chronique, nature: $nature, attitude: $attitude, concept: $concept, clan: $clan, generation: $generation, refuge: $refuge, force: $force, dexterite: $dexterite, vigeur: $vigeur, charisme: $charisme, manipulation: $manipulation, apparence: $apparence, perception: $perception, intelligence: $intelligence, astuce: $astuce, vigilance: $vigilance, athletisme: $athletisme, bagarre: $bagarre, esquive: $esquive, empathie: $empathie, expression: $expression, intimidation: $intimidation, commandement: $commandement, connaissanceDeLaRue: $connaissanceDeLaRue, subterfuge: $subterfuge, animaux: $animaux, artisanat: $artisanat, conduite: $conduite, etiquette: $etiquette, armesAFeu: $armesAFeu, melee: $melee, representation: $representation, securite: $securite, furtivite: $furtivite, survie: $survie, erudition: $erudition, informatique: $informatique, finances: $finances, investigation: $investigation, droit: $droit, linguistique: $linguistique, medecine: $medecine, occultisme: $occultisme, politique: $politique, science: $science)';
   }
 
   @override
   bool operator ==(covariant Fiche other) {
     if (identical(this, other)) return true;
 
-    return other.playerid == playerid &&
+    return other.idJoueur == idJoueur &&
         other.joueur == joueur &&
         other.nom == nom &&
         other.chronique == chronique &&
@@ -421,7 +403,7 @@ class Fiche {
 
   @override
   int get hashCode {
-    return playerid.hashCode ^
+    return idJoueur.hashCode ^
         joueur.hashCode ^
         nom.hashCode ^
         chronique.hashCode ^
