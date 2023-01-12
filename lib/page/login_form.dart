@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/extension/auth_store_extensions.dart';
 import 'package:mascarade/page/dashboard.dart';
 import 'package:mascarade/page/home_page.dart';
+import 'package:mascarade/provider/chronicle_provider.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/provider/login_form_state_provider.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
@@ -48,6 +49,7 @@ class LoginForm extends ConsumerWidget {
           passwordController.text,
         );
         await ref.read(ficheProvider.notifier).load();
+        await ref.read(chroniclesProvider.notifier).load();
         ref.read(tabIndexProvider.notifier).state = 0;
         await Navigator.of(context).pushReplacement(
           MaterialPageRoute<void>(

@@ -7,6 +7,7 @@ import 'package:mascarade/page/home_page.dart';
 import 'package:mascarade/page/loading_page.dart';
 import 'package:mascarade/page/login_form.dart';
 import 'package:mascarade/page/undefined_page.dart';
+import 'package:mascarade/provider/chronicle_provider.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/provider/shared_preferences_provider.dart';
@@ -72,7 +73,6 @@ class App extends ConsumerWidget with LayoutAwareWidget {
               password.isNotEmpty) {
             return LayoutBuilder(
               builder: (context, constraints) {
-                final layout = getLayout(constraints);
                 return FutureBuilder(
                   future: pocketBase
                       .collection('users')
@@ -80,6 +80,7 @@ class App extends ConsumerWidget with LayoutAwareWidget {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       ref.read(ficheProvider.notifier).load();
+                      ref.read(chroniclesProvider.notifier).load();
                       return ((pocketBase.authStore.model as RecordModel)
                               .data['storyteller'] as bool)
                           ? const Dashboard()

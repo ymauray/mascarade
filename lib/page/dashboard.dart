@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/extension/auth_store_extensions.dart';
-import 'package:mascarade/page/chronicle_provider.dart';
 import 'package:mascarade/page/login_form.dart';
+import 'package:mascarade/provider/chronicle_provider.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/utils/layout_type.dart';
 import 'package:mascarade/widget/layout_aware_widget.dart';
@@ -81,12 +81,19 @@ class DashboardMenu extends ConsumerWidget {
     final pocketBase = ref.watch(pocketBaseProvider);
     final name = pocketBase.authStore.getString('name');
     final chronicleController = TextEditingController(text: name);
+    final chronicleDal = ref.watch(chronicleDalProvider);
+    final chronicles = ref.watch(chroniclesProvider);
 
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           const Text('Chroniques'),
+          for (final chronicle in chronicles)
+            ListTile(
+              title: Text(chronicle.data['title'] as String),
+              subtitle: Text(chronicle.data['code'] as String),
+            ),
           const Divider(height: 32),
           // const Text('Code de la chronique'),
           // Text(
@@ -155,8 +162,7 @@ class DashboardMenu extends ConsumerWidget {
                 ),
               );
               if (created ?? false) {
-                final chronicleDal = ref.watch(chronicleDalProvider);
-                chronicleDal.create(chronicleController.text);
+                await chronicleDal.create(chronicleController.text);
               }
             },
             child: const Text('Nouvelle chronique'),

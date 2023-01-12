@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mascarade/page/login_form.dart';
+import 'package:mascarade/provider/chronicle_provider.dart';
 import 'package:mascarade/provider/fiche_provider.dart';
 import 'package:mascarade/provider/pocket_base_provider.dart';
 import 'package:mascarade/provider/tab_index_provider.dart';
@@ -26,6 +27,7 @@ class ParametresTab extends ConsumerWidget {
                   ),
                   onPressed: () async {
                     await ref.read(ficheProvider.notifier).load();
+                    await ref.read(chroniclesProvider.notifier).load();
                     ref.read(tabIndexProvider.notifier).state = 0;
                   },
                 ),

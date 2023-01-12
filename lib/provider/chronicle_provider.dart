@@ -21,3 +21,21 @@ class ChronicleDAL {
 final chronicleDalProvider = Provider<ChronicleDAL>(
   (ref) => ChronicleDAL(ref.watch(pocketBaseProvider)),
 );
+
+class ChroniclesProviderNotifier extends StateNotifier<List<RecordModel>> {
+  ChroniclesProviderNotifier(this._pocketBase) : super([]);
+
+  final PocketBase _pocketBase;
+
+  List<RecordModel> chronicles = [];
+
+  Future<void> load() async {
+    final list = await _pocketBase.collection('chronicles').getList();
+    state = list.items;
+  }
+}
+
+final chroniclesProvider =
+    StateNotifierProvider<ChroniclesProviderNotifier, List<RecordModel>>(
+  (ref) => ChroniclesProviderNotifier(ref.read(pocketBaseProvider)),
+);
