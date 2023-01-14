@@ -1,4 +1,0 @@
-enum LayoutType {
-  narrow,
-  wide,
-}
