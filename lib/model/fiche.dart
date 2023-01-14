@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
+import 'package:mascarade/model/avantage.dart';
 
 @immutable
 class Fiche {
+  final String? id;
   final String? idJoueur;
   final String? joueur;
   final String? nom;
@@ -61,7 +63,10 @@ class Fiche {
   final int? politique;
   final int? science;
 
+  final List<Avantage>? avantages;
+
   const Fiche({
+    this.id,
     this.idJoueur,
     this.joueur,
     this.nom,
@@ -111,9 +116,11 @@ class Fiche {
     this.occultisme,
     this.politique,
     this.science,
+    this.avantages,
   });
 
   Fiche copyWith({
+    String? id,
     String? idJoueur,
     String? joueur,
     String? nom,
@@ -163,8 +170,10 @@ class Fiche {
     int? occultisme,
     int? politique,
     int? science,
+    List<Avantage>? avantages,
   }) {
     return Fiche(
+      id: id ?? this.id,
       idJoueur: idJoueur ?? this.idJoueur,
       joueur: joueur ?? this.joueur,
       nom: nom ?? this.nom,
@@ -214,11 +223,13 @@ class Fiche {
       occultisme: occultisme ?? this.occultisme,
       politique: politique ?? this.politique,
       science: science ?? this.science,
+      avantages: avantages ?? this.avantages,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'idJoueur': idJoueur,
       'joueur': joueur,
       'nom': nom,
@@ -268,11 +279,13 @@ class Fiche {
       'occultisme': occultisme,
       'politique': politique,
       'science': science,
+      'avantages': (avantages ?? []).map((x) => x.toMap()).toList(),
     };
   }
 
   factory Fiche.fromMap(Map<String, dynamic> map) {
     return Fiche(
+      id: map['id'] != null ? map['id'] as String : null,
       idJoueur: map['idJoueur'] != null ? map['idJoueur'] as String : null,
       joueur: map['joueur'] != null ? map['joueur'] as String : null,
       nom: map['nom'] != null ? map['nom'] as String : null,
@@ -333,6 +346,13 @@ class Fiche {
       occultisme: map['occultisme'] != null ? map['occultisme'] as int : null,
       politique: map['politique'] != null ? map['politique'] as int : null,
       science: map['science'] != null ? map['science'] as int : null,
+      avantages: map['avantages'] != null
+          ? List<Avantage>.from(
+              (map['avantages'] as List<int>).map<Avantage?>(
+                (x) => Avantage.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
     );
   }
 
@@ -343,14 +363,15 @@ class Fiche {
 
   @override
   String toString() {
-    return 'Fiche(idJoueur: $idJoueur, joueur: $joueur, nom: $nom, chronique: $chronique, nature: $nature, attitude: $attitude, concept: $concept, clan: $clan, generation: $generation, refuge: $refuge, force: $force, dexterite: $dexterite, vigeur: $vigeur, charisme: $charisme, manipulation: $manipulation, apparence: $apparence, perception: $perception, intelligence: $intelligence, astuce: $astuce, vigilance: $vigilance, athletisme: $athletisme, bagarre: $bagarre, esquive: $esquive, empathie: $empathie, expression: $expression, intimidation: $intimidation, commandement: $commandement, connaissanceDeLaRue: $connaissanceDeLaRue, subterfuge: $subterfuge, animaux: $animaux, artisanat: $artisanat, conduite: $conduite, etiquette: $etiquette, armesAFeu: $armesAFeu, melee: $melee, representation: $representation, securite: $securite, furtivite: $furtivite, survie: $survie, erudition: $erudition, informatique: $informatique, finances: $finances, investigation: $investigation, droit: $droit, linguistique: $linguistique, medecine: $medecine, occultisme: $occultisme, politique: $politique, science: $science)';
+    return 'Fiche(id: $id, idJoueur: $idJoueur, joueur: $joueur, nom: $nom, chronique: $chronique, nature: $nature, attitude: $attitude, concept: $concept, clan: $clan, generation: $generation, refuge: $refuge, force: $force, dexterite: $dexterite, vigeur: $vigeur, charisme: $charisme, manipulation: $manipulation, apparence: $apparence, perception: $perception, intelligence: $intelligence, astuce: $astuce, vigilance: $vigilance, athletisme: $athletisme, bagarre: $bagarre, esquive: $esquive, empathie: $empathie, expression: $expression, intimidation: $intimidation, commandement: $commandement, connaissanceDeLaRue: $connaissanceDeLaRue, subterfuge: $subterfuge, animaux: $animaux, artisanat: $artisanat, conduite: $conduite, etiquette: $etiquette, armesAFeu: $armesAFeu, melee: $melee, representation: $representation, securite: $securite, furtivite: $furtivite, survie: $survie, erudition: $erudition, informatique: $informatique, finances: $finances, investigation: $investigation, droit: $droit, linguistique: $linguistique, medecine: $medecine, occultisme: $occultisme, politique: $politique, science: $science, avantages: $avantages)';
   }
 
   @override
   bool operator ==(covariant Fiche other) {
     if (identical(this, other)) return true;
 
-    return other.idJoueur == idJoueur &&
+    return other.id == id &&
+        other.idJoueur == idJoueur &&
         other.joueur == joueur &&
         other.nom == nom &&
         other.chronique == chronique &&
@@ -398,12 +419,14 @@ class Fiche {
         other.medecine == medecine &&
         other.occultisme == occultisme &&
         other.politique == politique &&
-        other.science == science;
+        other.science == science &&
+        listEquals(other.avantages, avantages);
   }
 
   @override
   int get hashCode {
-    return idJoueur.hashCode ^
+    return id.hashCode ^
+        idJoueur.hashCode ^
         joueur.hashCode ^
         nom.hashCode ^
         chronique.hashCode ^
@@ -451,6 +474,7 @@ class Fiche {
         medecine.hashCode ^
         occultisme.hashCode ^
         politique.hashCode ^
-        science.hashCode;
+        science.hashCode ^
+        avantages.hashCode;
   }
 }

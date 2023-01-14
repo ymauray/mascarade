@@ -52,7 +52,7 @@ class LandscapeLayout extends ConsumerWidget {
         ),
         const CapacitiesSection(),
         const HorizontalSeparator(
-          label: 'Avantages',
+          label: 'Avantages (5/3/10)',
         ),
         const AdvantagesSection(),
         const HorizontalSeparator(),
