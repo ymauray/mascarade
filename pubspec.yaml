@@ -48,6 +48,12 @@ flutter:
   assets:
     - assets/images/
   fonts:
+    - family: Percolator
+      fonts:
+        - asset: assets/fonts/Percolator/percolator-expert.ttf
+    - family: WoD3
+      fonts:
+        - asset: assets/fonts/WoD3/WOD3____.ttf
     - family: Cardo
       fonts:
         - asset: assets/fonts/Cardo/Cardo-Regular.ttf
